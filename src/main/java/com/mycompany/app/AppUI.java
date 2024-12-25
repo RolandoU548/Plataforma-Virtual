@@ -6,52 +6,97 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AppUI {
-    private static DatabaseConnection db;
+public class AppUI extends JFrame {
+    private DatabaseConnection db;
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Portable App");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        frame.add(panel);
-        placeComponents(panel);
-
-        frame.setVisible(true);
-
-        db = new DatabaseConnection();
-        db.connect("database.db");
-        db.executeStatement(
-                "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, username text NOT NULL);");
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+    public AppUI() {
+        setTitle("Portable App");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+        addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 db.disconnect();
             }
         });
     }
 
-    private static void placeComponents(JPanel panel) {
-        panel.setLayout(new FlowLayout());
+    public static void main(String[] args) {
+        AppUI app = new AppUI();
+        app.initComponents();
+        app.setVisible(true);
+        app.initDatabase();
+    }
 
-        JLabel userLabel = new JLabel("User");
-        userLabel.setSize(80, 25);
-        panel.add(userLabel);
+    private void initDatabase() {
+        db = new DatabaseConnection("database.db");
+        db.executeStatement(
+                "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, first_name text NOT NULL, last_name text NOT NULL, role text NOT NULL, password text NOT NULL);");
+        db.executeStatement(
+                "CREATE TABLE IF NOT EXISTS comments (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), text text NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+        db.executeStatement(
+                "CREATE TABLE IF NOT EXISTS publications (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), title text NOT NULL, description text, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+    }
 
-        JTextField userText = new JTextField(20);
-        userText.setSize(165, 25);
-        panel.add(userText);
+    private void initComponents() {
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(new FlowLayout());
 
-        JButton loginButton = new JButton("login");
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new FlowLayout());
+
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(new FlowLayout());
+
+        JPanel panel4 = new JPanel();
+        panel4.setLayout(new FlowLayout());
+
+        JLabel firstNameLabel = new JLabel("First Name");
+        firstNameLabel.setSize(80, 25);
+        panel1.add(firstNameLabel);
+        JTextField firstNameText = new JTextField(20);
+        firstNameText.setSize(165, 25);
+        panel1.add(firstNameText);
+
+        JLabel lastNameLabel = new JLabel("LastName");
+        lastNameLabel.setSize(80, 25);
+        panel2.add(lastNameLabel);
+        JTextField lastNameText = new JTextField(20);
+        lastNameText.setSize(165, 25);
+        panel2.add(lastNameText);
+
+        JLabel roleLabel = new JLabel("Role");
+        roleLabel.setSize(80, 25);
+        panel3.add(roleLabel);
+        JTextField roleText = new JTextField(20);
+        roleText.setSize(165, 25);
+        panel3.add(roleText);
+
+        JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setSize(80, 25);
+        panel4.add(passwordLabel);
+        JTextField passwordText = new JTextField(20);
+        passwordText.setSize(165, 25);
+        panel4.add(passwordText);
+
+        JButton loginButton = new JButton("Register");
         loginButton.setSize(80, 25);
-        panel.add(loginButton);
 
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String user = userText.getText();
-                String sql = "INSERT INTO users(username) VALUES(?)";
-                db.executePreparedStatement(sql, user);
+                String firstName = firstNameText.getText();
+                String lastName = lastNameText.getText();
+                String password = passwordText.getText();
+                String role = roleText.getText();
+                String sql = "INSERT INTO users(first_name, last_name, role, password) VALUES(?, ?, ?, ?)";
+                db.executePreparedStatement(sql, firstName, lastName, role, password);
             }
         });
+        add(panel1);
+        add(panel2);
+        add(panel3);
+        add(panel4);
+        add(loginButton);
     }
 }

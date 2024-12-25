@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class DatabaseConnection {
     private Connection conn;
 
-    public Connection connect(String databaseUrlString) {
+    public DatabaseConnection(String databaseUrlString) {
         String url = "jdbc:sqlite:" + databaseUrlString;
         conn = null;
         try {
@@ -19,7 +19,6 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return conn;
     }
 
     public void disconnect() {
@@ -42,9 +41,11 @@ public class DatabaseConnection {
         }
     }
 
-    public void executePreparedStatement(String sql, String param) {
+    public void executePreparedStatement(String sql, String... params) {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, param);
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setString(i + 1, params[i]);
+            }
             pstmt.executeUpdate();
             System.out.println("PreparedStatement executed");
         } catch (SQLException e) {
@@ -56,6 +57,7 @@ public class DatabaseConnection {
         ResultSet rs = null;
         try (Statement stmt = conn.createStatement()) {
             rs = stmt.executeQuery(sql);
+            System.out.println("SelectStatement executed");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
