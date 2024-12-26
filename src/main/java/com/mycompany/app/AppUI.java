@@ -23,8 +23,11 @@ public class AppUI extends JFrame {
 
     public static void main(String[] args) {
         AppUI app = new AppUI();
-        app.initComponents();
+
+        // Importante Iniciar Base de Datos antes que los componentes
         app.initDatabase();
+        app.initComponents();
+
         app.setVisible(true);
     }
 
