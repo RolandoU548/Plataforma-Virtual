@@ -15,15 +15,16 @@ public class AppUI extends JFrame {
         setLayout(new FlowLayout());
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                db.disconnect();
+                if (db != null)
+                    db.disconnect();
             }
         });
     }
 
     public static void main(String[] args) {
         AppUI app = new AppUI();
-        app.initDatabase();
         app.initComponents();
+        app.initDatabase();
         app.setVisible(true);
     }
 
