@@ -32,7 +32,7 @@ public class AppUI extends JFrame {
     private void initDatabase() {
         db = new DatabaseConnection("database.db");
         db.executeStatement(
-                "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, first_name text NOT NULL, last_name text NOT NULL, role text NOT NULL, password text NOT NULL);");
+                "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, first_name text NOT NULL, last_name text NOT NULL, role text CHECK (role IN('Student','Professor','Support Personal')) NOT NULL, password text NOT NULL);");
         db.executeStatement(
                 "CREATE TABLE IF NOT EXISTS comments (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), text text NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
         db.executeStatement(
@@ -69,14 +69,15 @@ public class AppUI extends JFrame {
         JLabel roleLabel = new JLabel("Role");
         roleLabel.setSize(80, 25);
         panel3.add(roleLabel);
-        JTextField roleText = new JTextField(20);
-        roleText.setSize(165, 25);
+        JComboBox<String> roleText = new JComboBox<String>();
+        roleText.addItem("Student");
+        roleText.addItem("Professor");
+        roleText.addItem("Support Persoal");
         panel3.add(roleText);
-
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setSize(80, 25);
         panel4.add(passwordLabel);
-        JTextField passwordText = new JTextField(20);
+        JPasswordField passwordText = new JPasswordField(20);
         passwordText.setSize(165, 25);
         panel4.add(passwordText);
 
@@ -87,8 +88,8 @@ public class AppUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String firstName = firstNameText.getText();
                 String lastName = lastNameText.getText();
-                String password = passwordText.getText();
-                String role = roleText.getText();
+                String password = passwordText.getPassword().toString();
+                String role = roleText.getSelectedItem().toString();
                 String sql = "INSERT INTO users(first_name, last_name, role, password) VALUES(?, ?, ?, ?)";
                 db.executePreparedStatement(sql, firstName, lastName, role, password);
             }
