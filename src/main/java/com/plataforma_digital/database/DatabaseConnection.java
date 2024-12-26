@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package com.plataforma_digital.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

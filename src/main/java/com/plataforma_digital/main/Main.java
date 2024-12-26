@@ -1,13 +1,16 @@
-package com.mycompany.app;
+package com.plataforma_digital.main;
+
+import com.plataforma_digital.database.DatabaseConnection;
+import com.plataforma_digital.gui.RegisterForm;
 
 import javax.swing.*;
 
 import java.awt.FlowLayout;
 
-public class AppUI extends JFrame {
+public class Main extends JFrame {
     private DatabaseConnection db;
 
-    public AppUI() {
+    public Main() {
         setTitle("Portable App");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(400, 300);
@@ -22,7 +25,7 @@ public class AppUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        AppUI app = new AppUI();
+        Main app = new Main();
 
         // Importante Iniciar Base de Datos antes que los componentes
         app.initDatabase();
