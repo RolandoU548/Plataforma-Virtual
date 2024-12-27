@@ -32,14 +32,16 @@ public class AppUI extends JFrame {
 
         RegisterForm registerForm = new RegisterForm(this);
         LoginForm loginForm = new LoginForm(this);
-        mainPanel.add(loginForm,
-                "loginForm");
+        Home home = new Home(this);
+
+        mainPanel.add(loginForm, "loginForm");
         mainPanel.add(registerForm, "registerForm");
+        mainPanel.add(home, "home");
 
         add(mainPanel);
 
         cardLayout.show(mainPanel,
-                "registerForm");
+                "loginForm");
     }
 
     public void showPanel(String name) {

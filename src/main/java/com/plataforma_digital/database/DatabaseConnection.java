@@ -74,4 +74,23 @@ public class DatabaseConnection {
         }
         return rs;
     }
+
+    public static ResultSet executePreparedSelectStatement(String sql, String... params) {
+        ResultSet rs = null;
+        if (conn != null) {
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                for (int i = 0; i < params.length; i++) {
+                    pstmt.setString(i + 1, params[i]);
+                }
+                rs = pstmt.executeQuery();
+                System.out.println("PreparedSelectStatement executed");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Connection to database is null");
+        }
+        return rs;
+    }
 }

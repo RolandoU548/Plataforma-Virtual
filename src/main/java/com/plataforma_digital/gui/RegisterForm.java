@@ -2,8 +2,6 @@ package com.plataforma_digital.gui;
 
 import com.plataforma_digital.database.DatabaseConnection;
 import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -43,52 +41,46 @@ public class RegisterForm extends JPanel {
 
         firstNameLabel = new JLabel("First Name");
         firstNameLabel.setSize(80, 25);
-        panel1.add(firstNameLabel);
         firstNameText = new JTextField(20);
         firstNameText.setSize(165, 25);
+        panel1.add(firstNameLabel);
         panel1.add(firstNameText);
 
         lastNameLabel = new JLabel("LastName");
         lastNameLabel.setSize(80, 25);
-        panel2.add(lastNameLabel);
         lastNameText = new JTextField(20);
         lastNameText.setSize(165, 25);
+        panel2.add(lastNameLabel);
         panel2.add(lastNameText);
 
         roleLabel = new JLabel("Role");
         roleLabel.setSize(80, 25);
-        panel3.add(roleLabel);
         roleText = new JComboBox<String>();
         roleText.addItem("Student");
         roleText.addItem("Professor");
         roleText.addItem("Support Personal");
+        panel3.add(roleLabel);
         panel3.add(roleText);
 
         passwordLabel = new JLabel("Password");
         passwordLabel.setSize(80, 25);
-        panel4.add(passwordLabel);
         passwordText = new JPasswordField(20);
         passwordText.setSize(165, 25);
+        panel4.add(passwordLabel);
         panel4.add(passwordText);
 
         registerButton = new JButton("Register");
         registerButton.setSize(80, 25);
 
-        registerButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                register();
-                clearFields();
-            }
+        registerButton.addActionListener(e -> {
+            register();
+            clearFields();
         });
 
         loginButton = new JButton("Login");
         loginButton.setSize(80, 25);
 
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                appUI.showPanel("loginForm");
-            }
-        });
+        loginButton.addActionListener(e -> appUI.showPanel("loginForm"));
 
         add(panel1);
         add(panel2);
@@ -108,7 +100,7 @@ public class RegisterForm extends JPanel {
     public void register() {
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
-        String password = passwordText.getPassword().toString();
+        String password = new String(passwordText.getPassword());
         String role = roleText.getSelectedItem().toString();
         String sql = "INSERT INTO users(first_name, last_name, role, password) VALUES(?, ?, ?, ?)";
         DatabaseConnection.executePreparedStatement(sql, firstName, lastName, role, password);
