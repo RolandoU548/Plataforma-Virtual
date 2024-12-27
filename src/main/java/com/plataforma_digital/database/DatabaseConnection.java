@@ -8,11 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseConnection {
-    private Connection conn;
+    private static Connection conn;
 
-    public DatabaseConnection(String databaseUrlString) {
+    public static void connect(String databaseUrlString) {
         String url = "jdbc:sqlite:" + databaseUrlString;
-        conn = null;
         try {
             conn = DriverManager.getConnection(url);
             System.out.println("Connection to SQLite has been established.");
@@ -21,7 +20,7 @@ public class DatabaseConnection {
         }
     }
 
-    public void disconnect() {
+    public static void disconnect() {
         if (conn != null) {
             try {
                 conn.close();
@@ -32,7 +31,11 @@ public class DatabaseConnection {
         }
     }
 
-    public void executeStatement(String sql) {
+    public static void executeStatement(String sql) {
+        if (conn == null) {
+            System.out.println("Connection to database is null");
+            return;
+        }
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
             System.out.println("Statement executed");
@@ -41,7 +44,11 @@ public class DatabaseConnection {
         }
     }
 
-    public void executePreparedStatement(String sql, String... params) {
+    public static void executePreparedStatement(String sql, String... params) {
+        if (conn == null) {
+            System.out.println("Connection to database is null");
+            return;
+        }
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             for (int i = 0; i < params.length; i++) {
                 pstmt.setString(i + 1, params[i]);
@@ -53,13 +60,17 @@ public class DatabaseConnection {
         }
     }
 
-    public ResultSet executeSelectStatement(String sql) {
+    public static ResultSet executeSelectStatement(String sql) {
         ResultSet rs = null;
-        try (Statement stmt = conn.createStatement()) {
-            rs = stmt.executeQuery(sql);
-            System.out.println("SelectStatement executed");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        if (conn != null) {
+            try (Statement stmt = conn.createStatement()) {
+                rs = stmt.executeQuery(sql);
+                System.out.println("SelectStatement executed");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Connection to database is null");
         }
         return rs;
     }

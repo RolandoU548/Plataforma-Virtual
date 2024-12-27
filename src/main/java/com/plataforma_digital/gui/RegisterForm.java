@@ -12,8 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class RegisterForm extends JPanel implements ActionListener {
-    private DatabaseConnection db;
+public class RegisterForm extends JPanel {
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
@@ -26,11 +25,10 @@ public class RegisterForm extends JPanel implements ActionListener {
     private JTextField lastNameText;
     private JComboBox<String> roleText;
     private JPasswordField passwordText;
+    private JButton registerButton;
     private JButton loginButton;
 
-    public RegisterForm(DatabaseConnection db) {
-        this.db = db;
-
+    public RegisterForm(AppUI appUI) {
         panel1 = new JPanel();
         panel1.setLayout(new FlowLayout());
 
@@ -73,14 +71,30 @@ public class RegisterForm extends JPanel implements ActionListener {
         passwordText.setSize(165, 25);
         panel4.add(passwordText);
 
-        loginButton = new JButton("Register");
+        registerButton = new JButton("Register");
+        registerButton.setSize(80, 25);
+
+        registerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                register();
+                clearFields();
+            }
+        });
+
+        loginButton = new JButton("Login");
         loginButton.setSize(80, 25);
-        loginButton.addActionListener(this);
+
+        loginButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                appUI.showPanel("loginForm");
+            }
+        });
 
         add(panel1);
         add(panel2);
         add(panel3);
         add(panel4);
+        add(registerButton);
         add(loginButton);
     }
 
@@ -97,11 +111,6 @@ public class RegisterForm extends JPanel implements ActionListener {
         String password = passwordText.getPassword().toString();
         String role = roleText.getSelectedItem().toString();
         String sql = "INSERT INTO users(first_name, last_name, role, password) VALUES(?, ?, ?, ?)";
-        db.executePreparedStatement(sql, firstName, lastName, role, password);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        register();
-        clearFields();
+        DatabaseConnection.executePreparedStatement(sql, firstName, lastName, role, password);
     }
 }
