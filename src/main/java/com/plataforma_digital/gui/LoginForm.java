@@ -6,9 +6,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
 import java.awt.FlowLayout;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.plataforma_digital.database.DatabaseConnection;
 
@@ -51,8 +50,10 @@ public class LoginForm extends JPanel {
         loginButton.setSize(80, 25);
 
         loginButton.addActionListener(e -> {
-            login();
-            clearFields();
+            if (validateFields()) {
+                login();
+                clearFields();
+            }
         });
 
         registerButton = new JButton("Register");
@@ -71,19 +72,25 @@ public class LoginForm extends JPanel {
         passwordText.setText("");
     }
 
+    public boolean validateFields() {
+        if (usernameText.getText().isEmpty() || passwordText.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     public void login() {
         String username = usernameText.getText();
         String password = new String(passwordText.getPassword());
-        String sql = "SELECT * FROM users WHERE first_name = ? AND password = ?";
-        try (ResultSet rs = DatabaseConnection.executePreparedSelectStatement(sql, username, password)) {
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Bienvenido, " + username + "!");
-                appUI.showPanel("home");
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        if (DatabaseConnection.authenticateUser(username, password) != null) {
+            JOptionPane.showMessageDialog(null, "Bienvenido, " + username + "!");
+            appUI.showPanel("home");
+            return;
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
         }
     }
+
 }

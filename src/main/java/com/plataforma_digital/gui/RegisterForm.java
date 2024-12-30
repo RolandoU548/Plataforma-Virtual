@@ -1,6 +1,8 @@
 package com.plataforma_digital.gui;
 
 import com.plataforma_digital.database.DatabaseConnection;
+import com.plataforma_digital.entities.User;
+
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -9,16 +11,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 public class RegisterForm extends JPanel {
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
     private JPanel panel4;
+    private JPanel panel5;
+    private JLabel usernameLabel;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
     private JLabel roleLabel;
     private JLabel passwordLabel;
+    private JTextField usernameText;
     private JTextField firstNameText;
     private JTextField lastNameText;
     private JComboBox<String> roleText;
@@ -39,19 +45,29 @@ public class RegisterForm extends JPanel {
         panel4 = new JPanel();
         panel4.setLayout(new FlowLayout());
 
+        panel5 = new JPanel();
+        panel5.setLayout(new FlowLayout());
+
+        usernameLabel = new JLabel("Username");
+        usernameLabel.setSize(80, 25);
+        usernameText = new JTextField(20);
+        usernameText.setSize(165, 25);
+        panel1.add(usernameLabel);
+        panel1.add(usernameText);
+
         firstNameLabel = new JLabel("First Name");
         firstNameLabel.setSize(80, 25);
         firstNameText = new JTextField(20);
         firstNameText.setSize(165, 25);
-        panel1.add(firstNameLabel);
-        panel1.add(firstNameText);
+        panel2.add(firstNameLabel);
+        panel2.add(firstNameText);
 
         lastNameLabel = new JLabel("LastName");
         lastNameLabel.setSize(80, 25);
         lastNameText = new JTextField(20);
         lastNameText.setSize(165, 25);
-        panel2.add(lastNameLabel);
-        panel2.add(lastNameText);
+        panel3.add(lastNameLabel);
+        panel3.add(lastNameText);
 
         roleLabel = new JLabel("Role");
         roleLabel.setSize(80, 25);
@@ -59,22 +75,24 @@ public class RegisterForm extends JPanel {
         roleText.addItem("Student");
         roleText.addItem("Professor");
         roleText.addItem("Support Personal");
-        panel3.add(roleLabel);
-        panel3.add(roleText);
+        panel4.add(roleLabel);
+        panel4.add(roleText);
 
         passwordLabel = new JLabel("Password");
         passwordLabel.setSize(80, 25);
         passwordText = new JPasswordField(20);
         passwordText.setSize(165, 25);
-        panel4.add(passwordLabel);
-        panel4.add(passwordText);
+        panel5.add(passwordLabel);
+        panel5.add(passwordText);
 
         registerButton = new JButton("Register");
         registerButton.setSize(80, 25);
 
         registerButton.addActionListener(e -> {
-            register();
-            clearFields();
+            if (validateFields()) {
+                register();
+                clearFields();
+            }
         });
 
         loginButton = new JButton("Login");
@@ -86,23 +104,36 @@ public class RegisterForm extends JPanel {
         add(panel2);
         add(panel3);
         add(panel4);
+        add(panel5);
         add(registerButton);
         add(loginButton);
     }
 
     public void clearFields() {
+        usernameText.setText("");
         firstNameText.setText("");
         lastNameText.setText("");
         roleText.setSelectedIndex(0);
         passwordText.setText("");
     }
 
+    public boolean validateFields() {
+        if (usernameText.getText().isEmpty() || firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty()
+                || passwordText.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     public void register() {
+        String username = usernameText.getText();
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();
         String password = new String(passwordText.getPassword());
         String role = roleText.getSelectedItem().toString();
-        String sql = "INSERT INTO users(first_name, last_name, role, password) VALUES(?, ?, ?, ?)";
-        DatabaseConnection.executePreparedStatement(sql, firstName, lastName, role, password);
+        User user = new User(0, username, firstName, lastName, role, password);
+        DatabaseConnection.createUser(user);
     }
 }

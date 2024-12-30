@@ -15,7 +15,11 @@ public class Home extends JPanel {
         add(welcomeLabel);
 
         logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(e -> appUI.showPanel("loginForm"));
+        logoutButton.addActionListener(e -> showPanel("loginForm"));
         add(logoutButton);
+    }
+
+    public void showPanel(String view) {
+        appUI.showPanel(view);
     }
 }
