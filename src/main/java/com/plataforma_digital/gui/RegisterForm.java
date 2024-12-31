@@ -136,18 +136,18 @@ public class RegisterForm extends JPanel {
         String lastName = lastNameText.getText();
         String password = new String(passwordText.getPassword());
         String role = roleText.getSelectedItem().toString();
-        if (DatabaseConnection.getUserByUsername(username) == null) {
-            User user = new User(0, firstName, lastName, username, role, password);
-            DatabaseConnection.createUser(user);
-            System.out.println("User registered with ID: " + user.getId());
-            JOptionPane.showMessageDialog(null, "User created succesfully, please log in.", "User created",
-                    JOptionPane.INFORMATION_MESSAGE);
-            appUI.showPanel("loginForm");
-        } else {
+        if (DatabaseConnection.getUserByUsername(username) != null) {
             System.out.println("User was not registered because the username is already in use");
             JOptionPane.showMessageDialog(null, "Username already exists. Please choose a different username.",
                     "Username already in used",
                     JOptionPane.WARNING_MESSAGE);
+            return;
         }
+        User user = new User(0, firstName, lastName, username, role, password);
+        DatabaseConnection.createUser(user);
+        System.out.println("User registered with ID: " + user.getId());
+        JOptionPane.showMessageDialog(null, "User created succesfully, please log in.", "User created",
+                JOptionPane.INFORMATION_MESSAGE);
+        appUI.showPanel("loginForm");
     }
 }

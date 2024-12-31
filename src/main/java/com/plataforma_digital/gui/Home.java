@@ -8,6 +8,9 @@ public class Home extends JPanel {
     public AppUI appUI;
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    Navigation navigation;
+    EditProfile editProfile;
+    Calendar calendar;
 
     public Home(AppUI appUI) {
         this.appUI = appUI;
@@ -15,11 +18,11 @@ public class Home extends JPanel {
     }
 
     private void initComponents() {
-        Navigation navigation = new Navigation(this);
+        navigation = new Navigation(this);
         add(navigation);
 
-        EditProfile editProfile = new EditProfile(this);
-        Calendar calendar = new Calendar(this);
+        editProfile = new EditProfile(this);
+        calendar = new Calendar(this);
         cardLayout = new CardLayout();
         mainPanel = new JPanel();
         mainPanel.setLayout(cardLayout);
@@ -27,6 +30,8 @@ public class Home extends JPanel {
         mainPanel.add(editProfile, "editProfile");
         mainPanel.add(calendar, "calendar");
         add(mainPanel);
+
+        cardLayout.show(mainPanel, "editProfile");
     }
 
     public void showPanel(String name) {

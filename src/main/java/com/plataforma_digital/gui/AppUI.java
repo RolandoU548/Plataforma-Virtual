@@ -8,6 +8,9 @@ import javax.swing.JPanel;
 import com.plataforma_digital.database.DatabaseConnection;
 
 public class AppUI extends JFrame {
+    public RegisterForm registerForm;
+    public LoginForm loginForm;
+    public Home home;
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
@@ -30,9 +33,9 @@ public class AppUI extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        RegisterForm registerForm = new RegisterForm(this);
-        LoginForm loginForm = new LoginForm(this);
-        Home home = new Home(this);
+        registerForm = new RegisterForm(this);
+        loginForm = new LoginForm(this);
+        home = new Home(this);
 
         mainPanel.add(loginForm, "loginForm");
         mainPanel.add(registerForm, "registerForm");

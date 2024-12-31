@@ -10,6 +10,8 @@ import javax.swing.JTextField;
 import java.awt.FlowLayout;
 
 import com.plataforma_digital.database.DatabaseConnection;
+import com.plataforma_digital.entities.User;
+import com.plataforma_digital.entities.CurrentUser;
 
 public class LoginForm extends JPanel {
     private AppUI appUI;
@@ -84,15 +86,16 @@ public class LoginForm extends JPanel {
     private void login() {
         String username = usernameText.getText();
         String password = new String(passwordText.getPassword());
-        if (DatabaseConnection.authenticateUser(username, password) != null) {
-            System.out.println("User " + username + " logged in");
-            appUI.showPanel("home");
-            JOptionPane.showMessageDialog(null, "Welcome, " + username + "!", "Welcome",
-                    JOptionPane.INFORMATION_MESSAGE);
-            return;
-        } else {
+        User user = DatabaseConnection.authenticateUser(username, password);
+        if (user == null) {
             JOptionPane.showMessageDialog(null, "Incorrect username or password");
+            return;
         }
+        CurrentUser.setUser(user);
+        appUI.home.editProfile.updateProfileInfo();
+        System.out.println("User " + username + " logged in");
+        appUI.showPanel("home");
+        JOptionPane.showMessageDialog(null, "Welcome, " + username + "!", "Welcome",
+                JOptionPane.INFORMATION_MESSAGE);
     }
-
 }
