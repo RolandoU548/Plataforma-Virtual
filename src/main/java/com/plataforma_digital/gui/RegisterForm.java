@@ -112,7 +112,7 @@ public class RegisterForm extends JPanel {
         add(loginButton);
     }
 
-    public void clearFields() {
+    private void clearFields() {
         usernameText.setText("");
         firstNameText.setText("");
         lastNameText.setText("");
@@ -120,7 +120,7 @@ public class RegisterForm extends JPanel {
         passwordText.setText("");
     }
 
-    public boolean validateFields() {
+    private boolean validateFields() {
         if (usernameText.getText().isEmpty() || firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty()
                 || passwordText.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
@@ -130,7 +130,7 @@ public class RegisterForm extends JPanel {
         return true;
     }
 
-    public void register() {
+    private void register() {
         String username = usernameText.getText();
         String firstName = firstNameText.getText();
         String lastName = lastNameText.getText();

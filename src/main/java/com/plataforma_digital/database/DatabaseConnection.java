@@ -34,7 +34,7 @@ public class DatabaseConnection {
     }
 
     // Ejecutar Consultas a la base de datos
-    public static void executeStatement(String sql) {
+    private static void executeStatement(String sql) {
         if (conn == null) {
             System.out.println("Connection to database is null");
             return;
@@ -47,7 +47,7 @@ public class DatabaseConnection {
         }
     }
 
-    public static void executePreparedStatement(String sql, String... params) {
+    private static void executePreparedStatement(String sql, String... params) {
         if (conn == null) {
             System.out.println("Connection to database is null");
             return;
@@ -63,7 +63,7 @@ public class DatabaseConnection {
         }
     }
 
-    public static ResultSet executeSelectStatement(String sql) {
+    private static ResultSet executeSelectStatement(String sql) {
         ResultSet rs = null;
         if (conn != null) {
             try (Statement stmt = conn.createStatement()) {
@@ -78,7 +78,7 @@ public class DatabaseConnection {
         return rs;
     }
 
-    public static ResultSet executePreparedSelectStatement(String sql, String... params) {
+    private static ResultSet executePreparedSelectStatement(String sql, String... params) {
         ResultSet rs = null;
         if (conn != null) {
             try {
@@ -97,7 +97,7 @@ public class DatabaseConnection {
         return rs;
     }
 
-    public static int executePreparedStatementWithGeneratedKeys(String sql, String... params) {
+    private static int executePreparedStatementWithGeneratedKeys(String sql, String... params) {
         if (conn != null) {
             try (PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 for (int i = 0; i < params.length; i++) {

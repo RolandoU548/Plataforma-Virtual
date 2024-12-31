@@ -67,12 +67,12 @@ public class LoginForm extends JPanel {
         add(registerButton);
     }
 
-    public void clearFields() {
+    private void clearFields() {
         usernameText.setText("");
         passwordText.setText("");
     }
 
-    public boolean validateFields() {
+    private boolean validateFields() {
         if (usernameText.getText().isEmpty() || passwordText.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -81,13 +81,14 @@ public class LoginForm extends JPanel {
         return true;
     }
 
-    public void login() {
+    private void login() {
         String username = usernameText.getText();
         String password = new String(passwordText.getPassword());
         if (DatabaseConnection.authenticateUser(username, password) != null) {
             System.out.println("User " + username + " logged in");
             appUI.showPanel("home");
-            JOptionPane.showMessageDialog(null, "Welcome, " + username + "!");
+            JOptionPane.showMessageDialog(null, "Welcome, " + username + "!", "Welcome",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         } else {
             JOptionPane.showMessageDialog(null, "Incorrect username or password");

@@ -1,25 +1,35 @@
 package com.plataforma_digital.gui;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import java.awt.CardLayout;
+
 public class Home extends JPanel {
-    private AppUI appUI;
-    JLabel welcomeLabel;
-    JButton logoutButton;
+    public AppUI appUI;
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
 
     public Home(AppUI appUI) {
         this.appUI = appUI;
-        welcomeLabel = new JLabel("Welcome to the platform");
-        add(welcomeLabel);
-
-        logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(e -> showPanel("loginForm"));
-        add(logoutButton);
+        initComponents();
     }
 
-    public void showPanel(String view) {
-        appUI.showPanel(view);
+    private void initComponents() {
+        Navigation navigation = new Navigation(this);
+        add(navigation);
+
+        EditProfile editProfile = new EditProfile(this);
+        Calendar calendar = new Calendar(this);
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel();
+        mainPanel.setLayout(cardLayout);
+
+        mainPanel.add(editProfile, "editProfile");
+        mainPanel.add(calendar, "calendar");
+        add(mainPanel);
+    }
+
+    public void showPanel(String name) {
+        cardLayout.show(mainPanel, name);
     }
 }

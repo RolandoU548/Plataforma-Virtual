@@ -3,11 +3,11 @@ package com.plataforma_digital.main;
 import com.plataforma_digital.database.DatabaseConnection;
 import com.plataforma_digital.gui.AppUI;
 
-public class Main {
+public class App {
 
     public static void main(String[] args) {
-        Main.initDatabase();
-        Main.initAppUI();
+        App.initDatabase();
+        App.initAppUI();
     }
 
     private static void initDatabase() {
