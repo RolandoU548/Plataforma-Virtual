@@ -85,11 +85,12 @@ public class LoginForm extends JPanel {
         String username = usernameText.getText();
         String password = new String(passwordText.getPassword());
         if (DatabaseConnection.authenticateUser(username, password) != null) {
-            JOptionPane.showMessageDialog(null, "Bienvenido, " + username + "!");
+            System.out.println("User " + username + " logged in");
             appUI.showPanel("home");
+            JOptionPane.showMessageDialog(null, "Welcome, " + username + "!");
             return;
         } else {
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+            JOptionPane.showMessageDialog(null, "Incorrect username or password");
         }
     }
 

@@ -140,10 +140,25 @@ public class DatabaseConnection {
         }
     }
 
-    public static User getUser(int id) {
+    public static User getUserById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";
         User user = null;
         try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(id))) {
+            if (rs != null && rs.next()) {
+                user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("role"), rs.getString("password"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return user;
+    }
+
+    public static User getUserByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        User user = null;
+        try (ResultSet rs = executePreparedSelectStatement(sql, username)) {
             if (rs != null && rs.next()) {
                 user = new User(rs.getInt("id"), rs.getString("username"), rs.getString("first_name"),
                         rs.getString("last_name"),
@@ -161,7 +176,7 @@ public class DatabaseConnection {
                 user.getPassword(), String.valueOf(user.getId()));
     }
 
-    public static void deleteUser(int id) {
+    public static void deleteUserById(int id) {
         String sql = "DELETE FROM users WHERE id = ?";
         executePreparedStatement(sql, String.valueOf(id));
     }
@@ -192,7 +207,7 @@ public class DatabaseConnection {
         }
     }
 
-    public static Publication getPublication(int id) {
+    public static Publication getPublicationById(int id) {
         String sql = "SELECT * FROM publications WHERE id = ?";
         Publication publication = null;
         try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(id))) {
@@ -212,7 +227,7 @@ public class DatabaseConnection {
                 String.valueOf(publication.getId()));
     }
 
-    public static void deletePublication(int id) {
+    public static void deletePublicationById(int id) {
         String sql = "DELETE FROM publications WHERE id = ?";
         executePreparedStatement(sql, String.valueOf(id));
     }
@@ -227,7 +242,7 @@ public class DatabaseConnection {
         }
     }
 
-    public static Comment getComment(int id) {
+    public static Comment getCommentById(int id) {
         String sql = "SELECT * FROM comments WHERE id = ?";
         Comment comment = null;
         try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(id))) {
@@ -247,7 +262,7 @@ public class DatabaseConnection {
                 String.valueOf(comment.getId()));
     }
 
-    public static void deleteComment(int id) {
+    public static void deleteCommentById(int id) {
         String sql = "DELETE FROM comments WHERE id = ?";
         executePreparedStatement(sql, String.valueOf(id));
     }
