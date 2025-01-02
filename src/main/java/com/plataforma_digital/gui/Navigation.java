@@ -9,6 +9,7 @@ import com.plataforma_digital.entities.CurrentUser;
 public class Navigation extends JPanel {
     public Home home;
     JButton editProfileButton;
+    JButton createPublicationButton;
     JButton calendarButton;
     JButton logoutButton;
 
@@ -19,6 +20,10 @@ public class Navigation extends JPanel {
         editProfileButton = new JButton("Edit Profile");
         editProfileButton.addActionListener(e -> this.home.showPanel("editProfile"));
         editProfileButton.setSize(165, 25);
+
+        createPublicationButton = new JButton("Create Publication");
+        createPublicationButton.addActionListener(e -> this.home.showPanel("createPublication"));
+        createPublicationButton.setSize(165, 25);
 
         calendarButton = new JButton("Calendar");
         calendarButton.addActionListener(e -> this.home.showPanel("calendar"));
@@ -32,6 +37,7 @@ public class Navigation extends JPanel {
         logoutButton.setSize(165, 25);
 
         add(editProfileButton);
+        add(createPublicationButton);
         add(calendarButton);
         add(logoutButton);
     }

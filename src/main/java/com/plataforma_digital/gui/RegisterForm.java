@@ -101,7 +101,10 @@ public class RegisterForm extends JPanel {
         loginButton = new JButton("Login");
         loginButton.setSize(80, 25);
 
-        loginButton.addActionListener(e -> appUI.showPanel("loginForm"));
+        loginButton.addActionListener(e -> {
+            appUI.showPanel("loginForm");
+            clearFields();
+        });
 
         add(panel1);
         add(panel2);

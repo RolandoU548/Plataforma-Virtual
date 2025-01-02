@@ -10,6 +10,7 @@ public class Home extends JPanel {
     private JPanel mainPanel;
     Navigation navigation;
     EditProfile editProfile;
+    CreatePublication createPublication;
     Calendar calendar;
 
     public Home(AppUI appUI) {
@@ -22,12 +23,14 @@ public class Home extends JPanel {
         add(navigation);
 
         editProfile = new EditProfile(this);
+        createPublication = new CreatePublication(this);
         calendar = new Calendar(this);
         cardLayout = new CardLayout();
         mainPanel = new JPanel();
         mainPanel.setLayout(cardLayout);
 
         mainPanel.add(editProfile, "editProfile");
+        mainPanel.add(createPublication, "createPublication");
         mainPanel.add(calendar, "calendar");
         add(mainPanel);
 

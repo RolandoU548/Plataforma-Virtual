@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.plataforma_digital.entities.*;
 
 public class DatabaseConnection {
@@ -31,6 +34,16 @@ public class DatabaseConnection {
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    // Crear Tablas
+    public static void createTables() {
+        executeStatement(
+                "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, username text UNIQUE NOT NULL, first_name text NOT NULL, last_name text NOT NULL, role text CHECK (role IN('Student','Professor','Support Personal')) NOT NULL, password text NOT NULL);");
+        executeStatement(
+                "CREATE TABLE IF NOT EXISTS publications (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), title text NOT NULL, description text, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+        executeStatement(
+                "CREATE TABLE IF NOT EXISTS comments (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), publication_id integer NOT NULL references publications (id),text text NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
     }
 
     // Ejecutar Consultas a la base de datos
@@ -117,16 +130,6 @@ public class DatabaseConnection {
             System.out.println("Connection to database is null");
         }
         return -1;
-    }
-
-    // Crear Tablas
-    public static void createTables() {
-        executeStatement(
-                "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, username text UNIQUE NOT NULL, first_name text NOT NULL, last_name text NOT NULL, role text CHECK (role IN('Student','Professor','Support Personal')) NOT NULL, password text NOT NULL);");
-        executeStatement(
-                "CREATE TABLE IF NOT EXISTS publications (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), title text NOT NULL, description text, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
-        executeStatement(
-                "CREATE TABLE IF NOT EXISTS comments (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), publication_id integer NOT NULL references publications (id),text text NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
     }
 
     // Métodos CRUD para la tabla users
@@ -221,6 +224,36 @@ public class DatabaseConnection {
         return publication;
     }
 
+    public static List<Publication> getAllPublications() {
+        String sql = "SELECT * FROM publications";
+        List<Publication> publications = new ArrayList<>();
+        try (ResultSet rs = executeSelectStatement(sql)) {
+            while (rs != null && rs.next()) {
+                Publication publication = new Publication(rs.getInt("id"), rs.getInt("user_id"), rs.getString("title"),
+                        rs.getString("description"), rs.getString("created_at"));
+                publications.add(publication);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return publications;
+    }
+
+    public static List<Publication> getAllPublicationsByUserId(int userId) {
+        String sql = "SELECT * FROM publications WHERE user_id = ?";
+        List<Publication> publications = new ArrayList<>();
+        try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(userId))) {
+            while (rs != null && rs.next()) {
+                Publication publication = new Publication(rs.getInt("id"), rs.getInt("user_id"), rs.getString("title"),
+                        rs.getString("description"), rs.getString("created_at"));
+                publications.add(publication);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return publications;
+    }
+
     public static void updatePublication(Publication publication) {
         String sql = "UPDATE publications SET title = ?, description = ? WHERE id = ?";
         executePreparedStatement(sql, publication.getTitle(), publication.getDescription(),
@@ -254,6 +287,22 @@ public class DatabaseConnection {
             System.out.println(e.getMessage());
         }
         return comment;
+    }
+
+    public static List<Comment> getAllCommentsByPublicationId(int publicationId) {
+        String sql = "SELECT * FROM comments WHERE publication_id = ?";
+        List<Comment> comments = new ArrayList<>();
+        try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(publicationId))) {
+            while (rs != null && rs.next()) {
+                Comment comment = new Comment(rs.getInt("id"), rs.getInt("user_id"), rs.getInt("publication_id"),
+                        rs.getString("text"),
+                        rs.getString("created_at"));
+                comments.add(comment);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return comments;
     }
 
     public static void updateComment(Comment comment) {

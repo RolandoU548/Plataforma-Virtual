@@ -30,7 +30,7 @@ public class EditProfile extends JPanel {
     private JLabel lastNameLabel;
     private JLabel roleLabel;
     private JLabel passwordLabel;
-    private JButton updateButton;
+    private JButton updateProfileButton;
 
     public EditProfile(Home home) {
         this.home = home;
@@ -90,10 +90,10 @@ public class EditProfile extends JPanel {
         panel5.add(passwordLabel);
         panel5.add(passwordTextField);
 
-        updateButton = new JButton("Update");
-        updateButton.setSize(80, 25);
+        updateProfileButton = new JButton("Update");
+        updateProfileButton.setSize(80, 25);
 
-        updateButton.addActionListener(e -> {
+        updateProfileButton.addActionListener(e -> {
             if (validateFields()) {
                 updateProfileInfo();
             }
@@ -105,7 +105,7 @@ public class EditProfile extends JPanel {
         add(panel3);
         add(panel4);
         add(panel5);
-        add(updateButton);
+        add(updateProfileButton);
     }
 
     private boolean validateFields() {
