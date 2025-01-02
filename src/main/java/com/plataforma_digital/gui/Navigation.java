@@ -19,24 +19,36 @@ public class Navigation extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         editProfileButton = new JButton("Edit Profile");
-        editProfileButton.addActionListener(e -> this.home.showPanel("editProfile"));
+        editProfileButton.addActionListener(e -> {
+            home.editProfile = new EditProfile(home);
+            home.mainPanel.add(home.editProfile, "editProfile");
+            home.showPanel("editProfile");
+        });
         editProfileButton.setSize(165, 25);
 
         createPublicationButton = new JButton("Create Publication");
-        createPublicationButton.addActionListener(e -> this.home.showPanel("createPublication"));
+        createPublicationButton.addActionListener(e -> home.showPanel("createPublication"));
         createPublicationButton.setSize(165, 25);
 
         viewAllPublicationsButton = new JButton("View All Publications");
-        viewAllPublicationsButton.addActionListener(e -> this.home.showPanel("viewAllPublications"));
+        viewAllPublicationsButton.addActionListener(e -> {
+            home.viewAllPublications = new ViewAllPublications(home);
+            home.mainPanel.add(home.viewAllPublications, "viewAllPublications");
+            home.showPanel("viewAllPublications");
+        });
         viewAllPublicationsButton.setSize(165, 25);
 
         calendarButton = new JButton("Calendar");
-        calendarButton.addActionListener(e -> this.home.showPanel("calendar"));
+        calendarButton.addActionListener(e -> {
+            home.calendar = new Calendar(home);
+            home.mainPanel.add(home.calendar, "calendar");
+            home.showPanel("calendar");
+        });
         calendarButton.setSize(165, 25);
 
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
-            this.home.appUI.showPanel("loginForm");
+            home.appUI.showPanel("loginForm");
             CurrentUser.clear();
         });
         logoutButton.setSize(165, 25);

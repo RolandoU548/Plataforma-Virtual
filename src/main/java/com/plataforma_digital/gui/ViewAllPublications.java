@@ -10,9 +10,12 @@ import com.plataforma_digital.entities.Publication;
 
 public class ViewAllPublications extends JPanel {
     Home home;
+    JLabel viewAllPublicationsLabel;
 
     public ViewAllPublications(Home home) {
         this.home = home;
+        viewAllPublicationsLabel = new JLabel("View All Publications");
+        add(viewAllPublicationsLabel);
         List<Publication> publications = DatabaseConnection.getAllPublications();
         for (Publication publication : publications) {
             System.out.println("Title: " + publication.getTitle());

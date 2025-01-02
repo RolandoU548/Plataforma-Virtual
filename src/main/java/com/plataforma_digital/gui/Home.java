@@ -7,12 +7,12 @@ import java.awt.CardLayout;
 public class Home extends JPanel {
     public AppUI appUI;
     private CardLayout cardLayout;
-    private JPanel mainPanel;
-    Navigation navigation;
-    EditProfile editProfile;
-    CreatePublication createPublication;
-    ViewAllPublications viewAllPublications;
-    Calendar calendar;
+    public JPanel mainPanel;
+    public Navigation navigation;
+    public EditProfile editProfile;
+    public CreatePublication createPublication;
+    public ViewAllPublications viewAllPublications;
+    public Calendar calendar;
 
     public Home(AppUI appUI) {
         this.appUI = appUI;
