@@ -76,10 +76,11 @@ public class DatabaseConnection {
         }
     }
 
-    private static ResultSet executeSelectStatement(String sql) {
+    public static ResultSet executeSelectStatement(String sql) {
         ResultSet rs = null;
         if (conn != null) {
-            try (Statement stmt = conn.createStatement()) {
+            try {
+                Statement stmt = conn.createStatement();
                 rs = stmt.executeQuery(sql);
                 System.out.println("SelectStatement executed");
             } catch (SQLException e) {

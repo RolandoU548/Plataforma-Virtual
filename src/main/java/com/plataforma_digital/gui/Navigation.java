@@ -10,6 +10,7 @@ public class Navigation extends JPanel {
     public Home home;
     JButton editProfileButton;
     JButton createPublicationButton;
+    JButton viewAllPublicationsButton;
     JButton calendarButton;
     JButton logoutButton;
 
@@ -25,6 +26,10 @@ public class Navigation extends JPanel {
         createPublicationButton.addActionListener(e -> this.home.showPanel("createPublication"));
         createPublicationButton.setSize(165, 25);
 
+        viewAllPublicationsButton = new JButton("View All Publications");
+        viewAllPublicationsButton.addActionListener(e -> this.home.showPanel("viewAllPublications"));
+        viewAllPublicationsButton.setSize(165, 25);
+
         calendarButton = new JButton("Calendar");
         calendarButton.addActionListener(e -> this.home.showPanel("calendar"));
         calendarButton.setSize(165, 25);
@@ -38,6 +43,7 @@ public class Navigation extends JPanel {
 
         add(editProfileButton);
         add(createPublicationButton);
+        add(viewAllPublicationsButton);
         add(calendarButton);
         add(logoutButton);
     }
