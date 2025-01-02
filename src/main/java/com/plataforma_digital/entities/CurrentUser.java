@@ -1,5 +1,7 @@
 package com.plataforma_digital.entities;
 
+import com.plataforma_digital.utils.StringUtils;
+
 public class CurrentUser {
     private static int id;
     private static String firstName;
@@ -39,6 +41,30 @@ public class CurrentUser {
 
     public static String getPassword() {
         return password;
+    }
+
+    public static void setId(int id) {
+        CurrentUser.id = id;
+    }
+
+    public static void setUsername(String username) {
+        CurrentUser.username = username;
+    }
+
+    public static void setFirstName(String firstName) {
+        CurrentUser.firstName = StringUtils.capitalize(firstName);
+    }
+
+    public static void setLastName(String lastName) {
+        CurrentUser.lastName = StringUtils.capitalize(lastName);
+    }
+
+    public static void setRole(String role) {
+        CurrentUser.role = role;
+    }
+
+    public static void setPassword(String password) {
+        CurrentUser.password = password;
     }
 
     public static void clear() {

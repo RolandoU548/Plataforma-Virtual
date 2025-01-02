@@ -25,11 +25,11 @@ public class RegisterForm extends JPanel {
     private JLabel lastNameLabel;
     private JLabel roleLabel;
     private JLabel passwordLabel;
-    private JTextField usernameText;
-    private JTextField firstNameText;
-    private JTextField lastNameText;
-    private JComboBox<String> roleText;
-    private JPasswordField passwordText;
+    private JTextField usernameTextField;
+    private JTextField firstNameTextField;
+    private JTextField lastNameTextField;
+    private JComboBox<String> roleTextField;
+    private JPasswordField passwordTextField;
     private JButton registerButton;
     private JButton loginButton;
 
@@ -53,40 +53,40 @@ public class RegisterForm extends JPanel {
 
         usernameLabel = new JLabel("Username");
         usernameLabel.setSize(80, 25);
-        usernameText = new JTextField(20);
-        usernameText.setSize(165, 25);
+        usernameTextField = new JTextField(20);
+        usernameTextField.setSize(165, 25);
         panel1.add(usernameLabel);
-        panel1.add(usernameText);
+        panel1.add(usernameTextField);
 
-        firstNameLabel = new JLabel("First Name");
+        firstNameLabel = new JLabel("Firstname");
         firstNameLabel.setSize(80, 25);
-        firstNameText = new JTextField(20);
-        firstNameText.setSize(165, 25);
+        firstNameTextField = new JTextField(20);
+        firstNameTextField.setSize(165, 25);
         panel2.add(firstNameLabel);
-        panel2.add(firstNameText);
+        panel2.add(firstNameTextField);
 
-        lastNameLabel = new JLabel("LastName");
+        lastNameLabel = new JLabel("Lastname");
         lastNameLabel.setSize(80, 25);
-        lastNameText = new JTextField(20);
-        lastNameText.setSize(165, 25);
+        lastNameTextField = new JTextField(20);
+        lastNameTextField.setSize(165, 25);
         panel3.add(lastNameLabel);
-        panel3.add(lastNameText);
+        panel3.add(lastNameTextField);
 
         roleLabel = new JLabel("Role");
         roleLabel.setSize(80, 25);
-        roleText = new JComboBox<String>();
-        roleText.addItem("Student");
-        roleText.addItem("Professor");
-        roleText.addItem("Support Personal");
+        roleTextField = new JComboBox<String>();
+        roleTextField.addItem("Student");
+        roleTextField.addItem("Professor");
+        roleTextField.addItem("Support Personal");
         panel4.add(roleLabel);
-        panel4.add(roleText);
+        panel4.add(roleTextField);
 
         passwordLabel = new JLabel("Password");
         passwordLabel.setSize(80, 25);
-        passwordText = new JPasswordField(20);
-        passwordText.setSize(165, 25);
+        passwordTextField = new JPasswordField(20);
+        passwordTextField.setSize(165, 25);
         panel5.add(passwordLabel);
-        panel5.add(passwordText);
+        panel5.add(passwordTextField);
 
         registerButton = new JButton("Register");
         registerButton.setSize(80, 25);
@@ -113,16 +113,17 @@ public class RegisterForm extends JPanel {
     }
 
     private void clearFields() {
-        usernameText.setText("");
-        firstNameText.setText("");
-        lastNameText.setText("");
-        roleText.setSelectedIndex(0);
-        passwordText.setText("");
+        usernameTextField.setText("");
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        roleTextField.setSelectedIndex(0);
+        passwordTextField.setText("");
     }
 
     private boolean validateFields() {
-        if (usernameText.getText().isEmpty() || firstNameText.getText().isEmpty() || lastNameText.getText().isEmpty()
-                || passwordText.getPassword().length == 0) {
+        if (usernameTextField.getText().isEmpty() || firstNameTextField.getText().isEmpty()
+                || lastNameTextField.getText().isEmpty()
+                || passwordTextField.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
                     JOptionPane.INFORMATION_MESSAGE);
             return false;
@@ -131,11 +132,11 @@ public class RegisterForm extends JPanel {
     }
 
     private void register() {
-        String username = usernameText.getText();
-        String firstName = firstNameText.getText();
-        String lastName = lastNameText.getText();
-        String password = new String(passwordText.getPassword());
-        String role = roleText.getSelectedItem().toString();
+        String username = usernameTextField.getText();
+        String firstName = firstNameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String password = new String(passwordTextField.getPassword());
+        String role = roleTextField.getSelectedItem().toString();
         if (DatabaseConnection.getUserByUsername(username) != null) {
             System.out.println("User was not registered because the username is already in use");
             JOptionPane.showMessageDialog(null, "Username already exists. Please choose a different username.",
@@ -143,7 +144,7 @@ public class RegisterForm extends JPanel {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-        User user = new User(0, firstName, lastName, username, role, password);
+        User user = new User(0, username, firstName, lastName, role, password);
         DatabaseConnection.createUser(user);
         System.out.println("User registered with ID: " + user.getId());
         JOptionPane.showMessageDialog(null, "User created succesfully, please log in.", "User created",

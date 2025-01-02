@@ -19,8 +19,8 @@ public class LoginForm extends JPanel {
     private JPanel panel2;
     private JLabel usernameLabel;
     private JLabel passwordLabel;
-    private JTextField usernameText;
-    private JPasswordField passwordText;
+    private JTextField usernameTextField;
+    private JPasswordField passwordTextField;
     private JButton loginButton;
     private JButton registerButton;
 
@@ -34,19 +34,19 @@ public class LoginForm extends JPanel {
 
         usernameLabel = new JLabel("Username");
         usernameLabel.setSize(80, 25);
-        usernameText = new JTextField(20);
-        usernameText.setSize(165, 25);
+        usernameTextField = new JTextField(20);
+        usernameTextField.setSize(165, 25);
 
         panel1.add(usernameLabel);
-        panel1.add(usernameText);
+        panel1.add(usernameTextField);
 
         passwordLabel = new JLabel("Password");
         passwordLabel.setSize(80, 25);
-        passwordText = new JPasswordField(20);
-        passwordText.setSize(165, 25);
+        passwordTextField = new JPasswordField(20);
+        passwordTextField.setSize(165, 25);
 
         panel2.add(passwordLabel);
-        panel2.add(passwordText);
+        panel2.add(passwordTextField);
 
         loginButton = new JButton("Login");
         loginButton.setSize(80, 25);
@@ -70,12 +70,12 @@ public class LoginForm extends JPanel {
     }
 
     private void clearFields() {
-        usernameText.setText("");
-        passwordText.setText("");
+        usernameTextField.setText("");
+        passwordTextField.setText("");
     }
 
     private boolean validateFields() {
-        if (usernameText.getText().isEmpty() || passwordText.getPassword().length == 0) {
+        if (usernameTextField.getText().isEmpty() || passwordTextField.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
                     JOptionPane.INFORMATION_MESSAGE);
             return false;
@@ -84,15 +84,15 @@ public class LoginForm extends JPanel {
     }
 
     private void login() {
-        String username = usernameText.getText();
-        String password = new String(passwordText.getPassword());
+        String username = usernameTextField.getText();
+        String password = new String(passwordTextField.getPassword());
         User user = DatabaseConnection.authenticateUser(username, password);
         if (user == null) {
             JOptionPane.showMessageDialog(null, "Incorrect username or password");
             return;
         }
         CurrentUser.setUser(user);
-        appUI.home.editProfile.updateProfileInfo();
+        appUI.home.editProfile.updateCurrentUserInfo();
         System.out.println("User " + username + " logged in");
         appUI.showPanel("home");
         JOptionPane.showMessageDialog(null, "Welcome, " + username + "!", "Welcome",
