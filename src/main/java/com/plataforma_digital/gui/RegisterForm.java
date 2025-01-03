@@ -150,7 +150,8 @@ public class RegisterForm extends JPanel {
         User user = new User(0, username, firstName, lastName, role, password);
         DatabaseConnection.createUser(user);
         System.out.println("User registered with ID: " + user.getId());
-        JOptionPane.showMessageDialog(null, "User " + username + " created succesfully, please log in.", "User created",
+        JOptionPane.showMessageDialog(null, "User '" + username + "' created succesfully, please log in.",
+                "User created",
                 JOptionPane.INFORMATION_MESSAGE);
         appUI.showPanel("loginForm");
     }

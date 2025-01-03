@@ -1,5 +1,6 @@
 package com.plataforma_digital.gui;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ public class EditProfile extends JPanel {
 
     public EditProfile(Home home) {
         this.home = home;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         editProfileLabel = new JLabel("Edit Profile");
         editProfileLabel.setSize(80, 25);
@@ -75,7 +77,7 @@ public class EditProfile extends JPanel {
         panel3.add(lastNameTextField);
 
         roleLabel = new JLabel("Role");
-        roleLabel.setSize(80, 25);
+        roleLabel.setSize(120, 25);
         roleTextField = new JComboBox<String>();
         roleTextField.addItem("Student");
         roleTextField.addItem("Professor");
@@ -99,6 +101,7 @@ public class EditProfile extends JPanel {
             }
         });
 
+        updateCurrentUserInfo();
         add(editProfileLabel);
         add(panel1);
         add(panel2);
@@ -136,4 +139,5 @@ public class EditProfile extends JPanel {
                 .updateUser(updatedUser);
         CurrentUser.setUser(updatedUser);
     }
+
 }

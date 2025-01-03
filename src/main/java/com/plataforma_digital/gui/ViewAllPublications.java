@@ -3,6 +3,7 @@ package com.plataforma_digital.gui;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 import com.plataforma_digital.database.DatabaseConnection;
@@ -14,17 +15,18 @@ public class ViewAllPublications extends JPanel {
 
     public ViewAllPublications(Home home) {
         this.home = home;
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         viewAllPublicationsLabel = new JLabel("View All Publications");
+        viewAllPublicationsLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(viewAllPublicationsLabel);
         List<Publication> publications = DatabaseConnection.getAllPublications();
         for (Publication publication : publications) {
-            System.out.println("Title: " + publication.getTitle());
-            System.out.println("Description: " + publication.getDescription());
-            System.out.println("Created At: " + publication.getCreatedAt());
-            add(new JLabel("Creador: " + publication.getUserId()));
-            add(new JLabel("Title: " + publication.getTitle()));
-            add(new JLabel("Description: " + publication.getDescription()));
-            add(new JLabel("Created At: " + publication.getCreatedAt()));
+            JPanel publicationPanel = new JPanel();
+            publicationPanel.add(new JLabel("Creador: " + publication.getUserId()));
+            publicationPanel.add(new JLabel("Title: " + publication.getTitle()));
+            publicationPanel.add(new JLabel("Description: " + publication.getDescription()));
+            publicationPanel.add(new JLabel("Created At: " + publication.getCreatedAt()));
+            add(publicationPanel);
         }
     }
 }

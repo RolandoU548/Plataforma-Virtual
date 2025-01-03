@@ -20,9 +20,9 @@ public class Navigation extends JPanel {
 
         editProfileButton = new JButton("Edit Profile");
         editProfileButton.addActionListener(e -> {
-            home.editProfile = new EditProfile(home);
-            home.mainPanel.add(home.editProfile, "editProfile");
-            home.showPanel("editProfile");
+            EditProfile editProfile = new EditProfile(home);
+            home.editProfile = editProfile;
+            home.addAndShowPanel(editProfile, "editProfile");
         });
         editProfileButton.setSize(165, 25);
 
@@ -32,22 +32,23 @@ public class Navigation extends JPanel {
 
         viewAllPublicationsButton = new JButton("View All Publications");
         viewAllPublicationsButton.addActionListener(e -> {
-            home.viewAllPublications = new ViewAllPublications(home);
-            home.mainPanel.add(home.viewAllPublications, "viewAllPublications");
-            home.showPanel("viewAllPublications");
+            ViewAllPublications viewAllPublications = new ViewAllPublications(home);
+            home.viewAllPublications = viewAllPublications;
+            home.addAndShowPanel(viewAllPublications, "viewAllPublications");
         });
         viewAllPublicationsButton.setSize(165, 25);
 
         calendarButton = new JButton("Calendar");
         calendarButton.addActionListener(e -> {
-            home.calendar = new Calendar(home);
-            home.mainPanel.add(home.calendar, "calendar");
-            home.showPanel("calendar");
+            Calendar calendar = new Calendar(home);
+            home.calendar = calendar;
+            home.addAndShowPanel(calendar, "calendar");
         });
         calendarButton.setSize(165, 25);
 
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
+            home.showPanel("editProfile");
             home.appUI.showPanel("loginForm");
             CurrentUser.clear();
         });
