@@ -61,8 +61,8 @@ public class ViewPublication extends JPanel {
     }
 
     private void initCommentsSection(Publication publication) {
-        commentsSection = new CommentsSection(publication.getId());
-        commentsSection.updateComments(publication.getId());
+        commentsSection = new CommentsSection(publication);
+        commentsSection.updateComments();
     }
 
     private void initCreateComment(Publication publication) {

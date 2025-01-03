@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import com.plataforma_digital.database.DatabaseConnection;
 import com.plataforma_digital.entities.CurrentUser;
 import com.plataforma_digital.entities.User;
+import com.plataforma_digital.utils.StringUtils;
 
 public class EditProfile extends JPanel {
     public Home home;
@@ -115,9 +116,16 @@ public class EditProfile extends JPanel {
     }
 
     private boolean validateFields() {
-        if (usernameTextField.getText().equals(CurrentUser.getUsername())
-                && firstNameTextField.getText().equals(CurrentUser.getFirstName())
-                && lastNameTextField.getText().equals(CurrentUser.getLastName())
+        if (usernameTextField.getText().isEmpty()
+                || firstNameTextField.getText().isEmpty()
+                || lastNameTextField.getText().isEmpty()
+                || passwordTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "All fields are required", "Fields Required",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        } else if (usernameTextField.getText().equals(CurrentUser.getUsername())
+                && StringUtils.capitalize(firstNameTextField.getText()).equals(CurrentUser.getFirstName())
+                && StringUtils.capitalize(lastNameTextField.getText()).equals(CurrentUser.getLastName())
                 && roleTextField.getSelectedItem().toString().equals(CurrentUser.getRole())
                 && passwordTextField.getText().equals(CurrentUser.getPassword())) {
             JOptionPane.showMessageDialog(null, "Change some part of your profile", "Changes Required",
@@ -143,5 +151,11 @@ public class EditProfile extends JPanel {
         DatabaseConnection
                 .updateUser(updatedUser);
         CurrentUser.setUser(updatedUser);
+        System.out.println(CurrentUser.getUsername());
+        System.out.println(CurrentUser.getFirstName());
+        System.out.println(CurrentUser.getLastName());
+        System.out.println(CurrentUser.getRole());
+        System.out.println(CurrentUser.getPassword());
+        System.out.println("se ejecuto");
     }
 }

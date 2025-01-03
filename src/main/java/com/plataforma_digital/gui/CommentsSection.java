@@ -8,17 +8,21 @@ import javax.swing.JPanel;
 
 import com.plataforma_digital.database.DatabaseConnection;
 import com.plataforma_digital.entities.Comment;
+import com.plataforma_digital.entities.Publication;
 
 public class CommentsSection extends JPanel {
-    public CommentsSection(int publicationId) {
+    Publication publication;
+
+    public CommentsSection(Publication publication) {
+        this.publication = publication;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        updateComments(publicationId);
+        updateComments();
     }
 
-    public void updateComments(int publicationId) {
+    public void updateComments() {
         removeAll();
 
-        List<Comment> comments = DatabaseConnection.getAllCommentsByPublicationId(publicationId);
+        List<Comment> comments = DatabaseConnection.getAllCommentsByPublicationId(publication.getUserId());
         for (Comment comment : comments) {
             JPanel commentPanel = new JPanel();
             commentPanel.add(
