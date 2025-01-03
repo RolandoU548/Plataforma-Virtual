@@ -26,6 +26,11 @@ public class LoginForm extends JPanel {
 
     public LoginForm(AppUI appUI) {
         this.appUI = appUI;
+        initComponents();
+
+    }
+
+    private void initComponents() {
         panel1 = new JPanel();
         panel1.setLayout(new FlowLayout());
 

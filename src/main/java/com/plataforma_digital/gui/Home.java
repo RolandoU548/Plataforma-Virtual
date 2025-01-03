@@ -46,6 +46,7 @@ public class Home extends JPanel {
     public void addAndShowPanel(JPanel panel, String name) {
         mainPanel.remove(panel);
         mainPanel.add(panel, name);
+        mainPanel.revalidate();
         cardLayout.show(mainPanel, name);
     }
 }

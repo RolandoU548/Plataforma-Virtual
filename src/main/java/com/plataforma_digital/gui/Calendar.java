@@ -9,9 +9,12 @@ public class Calendar extends JPanel {
 
     public Calendar(Home home) {
         this.home = home;
+        initComponents();
+    }
+
+    private void initComponents() {
         calendarLabel = new JLabel("Calendar");
         calendarLabel.setSize(100, 100);
         add(calendarLabel);
     }
-
 }

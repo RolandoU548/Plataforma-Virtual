@@ -36,7 +36,11 @@ public class EditProfile extends JPanel {
     public EditProfile(Home home) {
         this.home = home;
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        initComponents();
+        updateCurrentUserInfo();
+    }
 
+    private void initComponents() {
         editProfileLabel = new JLabel("Edit Profile");
         editProfileLabel.setSize(80, 25);
 
@@ -101,7 +105,6 @@ public class EditProfile extends JPanel {
             }
         });
 
-        updateCurrentUserInfo();
         add(editProfileLabel);
         add(panel1);
         add(panel2);
@@ -130,6 +133,8 @@ public class EditProfile extends JPanel {
         lastNameTextField.setText(CurrentUser.getLastName());
         roleTextField.setSelectedItem(CurrentUser.getRole());
         passwordTextField.setText(CurrentUser.getPassword());
+        this.revalidate();
+        this.repaint();
     }
 
     private void updateProfileInfo() {
@@ -139,5 +144,4 @@ public class EditProfile extends JPanel {
                 .updateUser(updatedUser);
         CurrentUser.setUser(updatedUser);
     }
-
 }
