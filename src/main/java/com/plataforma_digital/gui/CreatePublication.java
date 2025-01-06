@@ -41,7 +41,7 @@ public class CreatePublication extends JPanel {
         panel1.add(titleLabel);
         panel1.add(titleTextField);
 
-        descriptionLabel = new JLabel("description");
+        descriptionLabel = new JLabel("Description");
         descriptionLabel.setSize(80, 25);
         descriptionTextField = new JTextField(20);
         descriptionTextField.setSize(165, 25);

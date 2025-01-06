@@ -100,7 +100,6 @@ public class LoginForm extends JPanel {
             return;
         }
         CurrentUser.setUser(user);
-        appUI.home.editProfile.updateCurrentUserInfo();
         System.out.println("User " + username + " logged in");
         appUI.showPanel("home");
         JOptionPane.showMessageDialog(null, "Welcome, " + username + "!", "Welcome",

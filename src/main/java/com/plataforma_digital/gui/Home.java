@@ -31,12 +31,12 @@ public class Home extends JPanel {
         mainPanel = new JPanel();
         mainPanel.setLayout(cardLayout);
 
+        mainPanel.add(editProfile, "editProfile");
         mainPanel.add(createPublication, "createPublication");
-        mainPanel.add(viewAllPublications, "viewAllPublications");
         mainPanel.add(calendar, "calendar");
+        addAndShowPanel(viewAllPublications, "viewAllPublications");
         add(mainPanel);
 
-        addAndShowPanel(editProfile, "editProfile");
     }
 
     public void showPanel(String name) {
