@@ -48,7 +48,7 @@ public class Navigation extends JPanel {
 
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
-            home.showPanel("editProfile");
+            home.showPanel("viewAllPublications");
             home.appUI.showPanel("loginForm");
             CurrentUser.clear();
         });

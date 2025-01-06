@@ -5,13 +5,15 @@ public class Publication {
     private int userId;
     private String title;
     private String description;
+    private String state;
     private String createdAt;
 
-    public Publication(int id, int userId, String title, String description, String createdAt) {
+    public Publication(int id, int userId, String title, String description, String state, String createdAt) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.description = description;
+        this.state = state;
         this.createdAt = createdAt;
     }
 
@@ -30,6 +32,10 @@ public class Publication {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getState() {
+        return state;
     }
 
     public String getCreatedAt() {
@@ -51,6 +57,10 @@ public class Publication {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setCreatedAt(String createdAt) {

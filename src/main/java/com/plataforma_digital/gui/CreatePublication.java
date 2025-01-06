@@ -80,7 +80,7 @@ public class CreatePublication extends JPanel {
 
     private void createPublication() {
         Publication newPublication = new Publication(0, CurrentUser.getId(), titleTextField.getText(),
-                descriptionTextField.getText(), null);
+                descriptionTextField.getText(), "in moderation", null);
         DatabaseConnection.createPublication(newPublication);
     }
 }

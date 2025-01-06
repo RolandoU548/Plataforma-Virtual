@@ -41,7 +41,7 @@ public class DatabaseConnection {
         executeStatement(
                 "CREATE TABLE IF NOT EXISTS users (id integer PRIMARY KEY AUTOINCREMENT, username text UNIQUE NOT NULL, first_name text NOT NULL, last_name text NOT NULL, role text CHECK (role IN('Student','Professor','Support Personal')) NOT NULL, password text NOT NULL);");
         executeStatement(
-                "CREATE TABLE IF NOT EXISTS publications (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), title text NOT NULL, description text, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+                "CREATE TABLE IF NOT EXISTS publications (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), title text NOT NULL, description text, state text CHECK(state IN ('approved', 'rejected', 'in moderation')) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
         executeStatement(
                 "CREATE TABLE IF NOT EXISTS comments (id integer PRIMARY KEY AUTOINCREMENT, user_id integer NOT NULL references users (id), publication_id integer NOT NULL references publications (id),text text NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
     }
@@ -202,10 +202,10 @@ public class DatabaseConnection {
 
     // Métodos CRUD para la tabla publications
     public static void createPublication(Publication publication) {
-        String sql = "INSERT INTO publications (user_id, title, description) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO publications (user_id, title, description, state) VALUES (?, ?, ?, ?)";
         int generatedId = executePreparedStatementWithGeneratedKeys(sql, String.valueOf(publication.getUserId()),
                 publication.getTitle(),
-                publication.getDescription());
+                publication.getDescription(), publication.getState());
         if (generatedId != -1) {
             publication.setId(generatedId);
         }
@@ -217,7 +217,7 @@ public class DatabaseConnection {
         try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(id))) {
             if (rs != null && rs.next()) {
                 publication = new Publication(rs.getInt("id"), rs.getInt("user_id"), rs.getString("title"),
-                        rs.getString("description"), rs.getString("created_at"));
+                        rs.getString("description"), rs.getString("state"), rs.getString("created_at"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -231,7 +231,7 @@ public class DatabaseConnection {
         try (ResultSet rs = executeSelectStatement(sql)) {
             while (rs != null && rs.next()) {
                 Publication publication = new Publication(rs.getInt("id"), rs.getInt("user_id"), rs.getString("title"),
-                        rs.getString("description"), rs.getString("created_at"));
+                        rs.getString("description"), rs.getString("state"), rs.getString("created_at"));
                 publications.add(publication);
             }
         } catch (SQLException e) {
@@ -246,7 +246,7 @@ public class DatabaseConnection {
         try (ResultSet rs = executePreparedSelectStatement(sql, String.valueOf(userId))) {
             while (rs != null && rs.next()) {
                 Publication publication = new Publication(rs.getInt("id"), rs.getInt("user_id"), rs.getString("title"),
-                        rs.getString("description"), rs.getString("created_at"));
+                        rs.getString("description"), rs.getString("state"), rs.getString("created_at"));
                 publications.add(publication);
             }
         } catch (SQLException e) {
@@ -256,8 +256,8 @@ public class DatabaseConnection {
     }
 
     public static void updatePublication(Publication publication) {
-        String sql = "UPDATE publications SET title = ?, description = ? WHERE id = ?";
-        executePreparedStatement(sql, publication.getTitle(), publication.getDescription(),
+        String sql = "UPDATE publications SET title = ?, description = ?, state = ? WHERE id = ?";
+        executePreparedStatement(sql, publication.getTitle(), publication.getDescription(), publication.getState(),
                 String.valueOf(publication.getId()));
     }
 
