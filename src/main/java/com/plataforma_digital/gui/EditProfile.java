@@ -156,6 +156,5 @@ public class EditProfile extends JPanel {
         System.out.println(CurrentUser.getLastName());
         System.out.println(CurrentUser.getRole());
         System.out.println(CurrentUser.getPassword());
-        System.out.println("se ejecuto");
     }
 }

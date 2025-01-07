@@ -240,6 +240,21 @@ public class DatabaseConnection {
         return publications;
     }
 
+    public static List<Publication> getAllPublicationsByState(String state) {
+        String sql = "SELECT * FROM publications WHERE state = ?";
+        List<Publication> publications = new ArrayList<>();
+        try (ResultSet rs = executePreparedSelectStatement(sql, state)) {
+            while (rs != null && rs.next()) {
+                Publication publication = new Publication(rs.getInt("id"), rs.getInt("user_id"), rs.getString("title"),
+                        rs.getString("description"), rs.getString("state"), rs.getString("created_at"));
+                publications.add(publication);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return publications;
+    }
+
     public static List<Publication> getAllPublicationsByUserId(int userId) {
         String sql = "SELECT * FROM publications WHERE user_id = ?";
         List<Publication> publications = new ArrayList<>();

@@ -22,7 +22,7 @@ public class CommentsSection extends JPanel {
     public void updateComments() {
         removeAll();
 
-        List<Comment> comments = DatabaseConnection.getAllCommentsByPublicationId(publication.getUserId());
+        List<Comment> comments = DatabaseConnection.getAllCommentsByPublicationId(publication.getId());
         for (Comment comment : comments) {
             JPanel commentPanel = new JPanel();
             commentPanel.add(

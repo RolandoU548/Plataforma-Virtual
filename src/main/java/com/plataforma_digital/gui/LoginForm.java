@@ -100,8 +100,8 @@ public class LoginForm extends JPanel {
             return;
         }
         CurrentUser.setUser(user);
-        appUI.home.viewAllPublications = new ViewAllPublications(appUI.home);
-        appUI.home.addAndShowPanel(appUI.home.viewAllPublications, "viewAllPublications");
+        appUI.home.viewAllPublications.clearPublications();
+        appUI.home.viewAllPublications.getPublications();
         appUI.showPanel("home");
         System.out.println("User " + username + " logged in");
         JOptionPane.showMessageDialog(null, "Welcome, " + username + "!", "Welcome",

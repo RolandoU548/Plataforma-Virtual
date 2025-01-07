@@ -1,5 +1,6 @@
 package com.plataforma_digital.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -13,6 +14,7 @@ import com.plataforma_digital.entities.Publication;
 public class ViewAllPublications extends JPanel {
     Home home;
     JLabel viewAllPublicationsLabel;
+    List<JPanel> publicationPanels = new ArrayList<>();
 
     public ViewAllPublications(Home home) {
         this.home = home;
@@ -24,7 +26,11 @@ public class ViewAllPublications extends JPanel {
         viewAllPublicationsLabel = new JLabel("View All Publications");
         viewAllPublicationsLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(viewAllPublicationsLabel);
-        List<Publication> publications = DatabaseConnection.getAllPublications();
+        getPublications();
+    }
+
+    public void getPublications() {
+        List<Publication> publications = DatabaseConnection.getAllPublicationsByState("approved");
         for (Publication publication : publications) {
             JPanel publicationPanel = new JPanel();
             publicationPanel.add(new JLabel("Title: " + publication.getTitle()));
@@ -36,6 +42,13 @@ public class ViewAllPublications extends JPanel {
             });
             publicationPanel.add(viewPublicationButton);
             add(publicationPanel);
+            publicationPanels.add(publicationPanel);
+        }
+    }
+
+    public void clearPublications() {
+        for (JPanel publicationPanel : publicationPanels) {
+            remove(publicationPanel);
         }
     }
 }

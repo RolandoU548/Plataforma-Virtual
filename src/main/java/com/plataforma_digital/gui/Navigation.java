@@ -12,6 +12,7 @@ public class Navigation extends JPanel {
     JButton createPublicationButton;
     JButton viewAllPublicationsButton;
     JButton calendarButton;
+    JButton moderationButton;
     JButton logoutButton;
 
     public Navigation(Home home) {
@@ -46,6 +47,14 @@ public class Navigation extends JPanel {
         });
         calendarButton.setSize(165, 25);
 
+        moderationButton = new JButton("Moderation");
+        moderationButton.addActionListener(e -> {
+            Moderation moderation = new Moderation(home);
+            home.moderation = moderation;
+            home.addAndShowPanel(moderation, "moderation");
+        });
+        moderationButton.setSize(165, 25);
+
         logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
             home.showPanel("viewAllPublications");
@@ -58,7 +67,7 @@ public class Navigation extends JPanel {
         add(createPublicationButton);
         add(viewAllPublicationsButton);
         add(calendarButton);
+        add(moderationButton);
         add(logoutButton);
     }
-
 }
