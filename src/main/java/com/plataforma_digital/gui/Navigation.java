@@ -41,7 +41,7 @@ public class Navigation extends JPanel {
 
         calendarButton = new JButton("Calendar");
         calendarButton.addActionListener(e -> {
-            Calendar calendar = new Calendar(home);
+            PublicationsCalendar calendar = new PublicationsCalendar(home);
             home.calendar = calendar;
             home.addAndShowPanel(calendar, "calendar");
         });

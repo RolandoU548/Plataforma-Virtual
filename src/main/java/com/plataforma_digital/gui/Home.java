@@ -12,7 +12,7 @@ public class Home extends JPanel {
     public EditProfile editProfile;
     public CreatePublication createPublication;
     public ViewAllPublications viewAllPublications;
-    public Calendar calendar;
+    public PublicationsCalendar calendar;
     public Moderation moderation;
 
     public Home(AppUI appUI) {
@@ -27,7 +27,7 @@ public class Home extends JPanel {
         editProfile = new EditProfile(this);
         createPublication = new CreatePublication(this);
         viewAllPublications = new ViewAllPublications(this);
-        calendar = new Calendar(this);
+        calendar = new PublicationsCalendar(this);
         moderation = new Moderation(this);
 
         cardLayout = new CardLayout();

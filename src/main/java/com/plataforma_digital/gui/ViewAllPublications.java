@@ -36,11 +36,20 @@ public class ViewAllPublications extends JPanel {
             publicationPanel.add(new JLabel("Title: " + publication.getTitle()));
             publicationPanel.add(new JLabel("Created At: " + publication.getCreatedAt()));
             JButton viewPublicationButton = new JButton("View Publication");
+            JButton deletePublicationButton = new JButton("Delete Publication");
             viewPublicationButton.addActionListener(e -> {
                 ViewPublication viewPublication = new ViewPublication(home, publication);
                 home.addAndShowPanel(viewPublication, "viewPublication");
             });
+            deletePublicationButton.addActionListener(e -> {
+                DatabaseConnection.deletePublicationById(publication.getId());
+                clearPublications();
+                getPublications();
+                revalidate();
+                repaint();
+            });
             publicationPanel.add(viewPublicationButton);
+            publicationPanel.add(deletePublicationButton);
             add(publicationPanel);
             publicationPanels.add(publicationPanel);
         }
